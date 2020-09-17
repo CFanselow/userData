@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
+
+<!--
+  * plugins/generic/emailAddress/locale/en_US/locale.xml
+  *
+  * Copyright (c) 2016 Language Science Press
+  * Distributed under the GNU GPL v2.
+  *
+  * Localization strings for the en_US (U.S. English) locale.
+  -->
+
+<locale name="en_US" full_name="U.S. English">
+
+	<message key="plugins.generic.emailAddress.displayName">Email Address Plugin</message>
+	<message key="plugins.generic.emailAddress.description">Exports email addresses.</message>
+	<message key="plugins.generic.emailAddress.linkName">Email Addresses</message>	
+	
+	<message key="plugins.generic.emailAddress.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.generic.emailAddress.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.generic.emailAddress.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
+	
+	<message key="plugins.generic.emailAddress.userGroup">User Group</message>
+	<message key="plugins.generic.emailAddress.title">Export of Email Addresses</message>
+	<message key="plugins.generic.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
+	
+	<message key="plugins.generic.emailAddress.download">Download</message>	
+
+
+</locale>
+
+
+
+
+
+
+
+
+
+
+
+
+

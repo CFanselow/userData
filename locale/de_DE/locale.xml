@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
+
+<!--
+  * plugins/generic/groupMail/locale/de_DE/locale.xml
+  *
+  * Copyright (c) 2016 Language Science Press
+  * Distributed under the GNU GPL v2.
+  *
+  * Localization strings for the German locale.
+  -->
+
+<locale name="de_DE" full_name="German">
+
+	<message key="plugins.generic.groupMail.displayName">Group Mail Plugin</message>
+	<message key="plugins.generic.groupMail.description">Export von der Namen und Emailadressen registrierter Benutzer</message>
+	<message key="plugins.generic.groupMail.settings">Settings</message>
+	<message key="plugins.generic.title.groupMail">Namen und Emailadressen registrierter Nutzer</message>
+	<message key="plugins.generic.groupMail.form.saved">Einstellungen gespeichert</message>
+	<message key="plugins.generic.groupMail.settings.title">Einstellungen für das Group Mail Plugin</message>
+	<message key="plugins.generic.groupMail.form.pathIntro">Pfade zur Pluginseite:</message>
+	<message key="plugins.generic.groupMail.form.path">(z.B. about/groupMail ergibt den Pfad [presspath]/about/groupMail)</message>
+	<message key="plugins.generic.groupMail.groups.title">Benutzergruppen</message>
+
+	<message key="plugins.generic.groupMail.userGroup">Benutzergruppe</message>
+	<message key="plugins.generic.groupMail.andInfo">1 Alle Benutzer, die in mindestens einer der ausgewählten Benutzergruppen sind</message>
+	<message key="plugins.generic.groupMail.orInfo">2 Alle Benutzer, die in allen der ausgewählten Benutzergruppen sind</message>
+	<message key="plugins.generic.groupMail.notInfo">3 Entfernt alle Benutzer, die in mindestens einer der ausgewählten Benutzergruppen sind</message>
+	<message key="plugins.generic.groupMail.showUsernames">Namen der Benutzer anzeigen</message>
+	<message key="plugins.generic.groupMail.showEmails">Email-Adressen der Benutzer anzeigen</message>
+	<message key="plugins.generic.groupMail.saveResults">Ergebnisse exportieren (csv)</message>
+	<message key="plugins.generic.groupMail.showResults">Ergebnisse hier anzeigen</message>
+
+
+</locale>
+
+
+
+
+
+
+
+
+
+
+
+
+
