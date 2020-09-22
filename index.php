@@ -1,17 +1,21 @@
 <?php
 
 /**
- * @file plugins/generic/emailAddress/index.php
+ * @defgroup plugins_importexport_emailAddresses email addresses export plugin
+ */
+ 
+/**
+ * @file plugins/importexport/emailAddresses /index.php
  *
- * Copyright (c) 2020 Freie UniversitÃ¤t Berlin
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.
+ * Copyright (c) 2020 Freie Universität Berlin
  *
+ * @ingroup plugins_importexport_emailAddresses 
+ * @brief Wrapper for email addresses export plugin.
  *
  */
 
+require_once('EmailAddressExportPlugin.inc.php');
 
-require_once('EmailAddressPlugin.inc.php');
+return new EmailAddressExportPlugin();
 
-return new EmailAddressPlugin();
 
-?>

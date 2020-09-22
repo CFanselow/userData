@@ -12,19 +12,20 @@
 
 <locale name="en_US" full_name="U.S. English">
 
-	<message key="plugins.generic.emailAddress.displayName">Email Address Plugin</message>
-	<message key="plugins.generic.emailAddress.description">Exports email addresses.</message>
-	<message key="plugins.generic.emailAddress.linkName">Email Addresses</message>	
+	<message key="plugins.importexport.emailAddress.displayName">Email Address Plugin</message>
+	<message key="plugins.importexport.emailAddress.description">Exports email addresses.</message>
+	<message key="plugins.importexport.emailAddress.linkName">Email Addresses</message>
 	
-	<message key="plugins.generic.emailAddress.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.generic.emailAddress.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.generic.emailAddress.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.emailAddress.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.emailAddress.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.emailAddress.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
 	
-	<message key="plugins.generic.emailAddress.userGroup">User Group</message>
-	<message key="plugins.generic.emailAddress.title">Export of Email Addresses</message>
-	<message key="plugins.generic.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
+	<message key="plugins.importexport.emailAddress.userGroup">User Group</message>
+	<message key="plugins.importexport.emailAddress.title">Export of Email Addresses</message>
+	<message key="plugins.importexport.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
+	<message key="plugins.importexport.emailAddress.export">Export</message>	
 	
-	<message key="plugins.generic.emailAddress.download">Download</message>	
+	<message key="plugins.importexport.emailAddress.download">Download</message>	
 
 
 </locale>
