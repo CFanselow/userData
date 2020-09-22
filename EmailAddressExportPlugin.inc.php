@@ -98,10 +98,10 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 				$and = array();
 				$not = array();
 				foreach ($userGroups as $key => $value) {
-					if ($request->getUserVar('AND'.$key)) {
+					if ($request->getUserVar('OR'.$key)) {
 						$or[] = $key;
 					} 
-					if ($request->getUserVar('OR'.$key)) {
+					if ($request->getUserVar('AND'.$key)) {
 						$and[] = $key;
 					} 
 					if ($request->getUserVar('NOT'.$key)) {
