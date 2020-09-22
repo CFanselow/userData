@@ -8,7 +8,7 @@
  * List of operations this plugin can perform
  *}
 {strip}
-{assign var="pageTitle" value="plugins.importexport.native.displayName"}
+{assign var="pageTitle" value="plugins.importexport.emailAddress.displayName"}
 {include file="common/header.tpl"}
 {/strip}
 
