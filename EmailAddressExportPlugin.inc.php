@@ -108,13 +108,13 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 						$not[] = $key;
 					} 
 				}
-						
+				$primaryLocale = $context->getPrimaryLocale();
 				$resOR  = array();
-				if (!empty($or)) {$resOR = $emailAddressDAO->getUserIDsByGroupOR($or);} 
+				if (!empty($or)) {$resOR = $emailAddressDAO->getUserInfosByGroupsOR($or,$primaryLocale);} 
+				$resAND = array();
+				if (!empty($and)) {$resAND = $emailAddressDAO->getUserInfosByGroupsAND($and,$primaryLocale);}
 				$resNOT = array();
-				if (!empty($not)) {$resNOT = $emailAddressDAO->getUserIDsByGroupOR($not);}
-				$resAND  = array();
-				if (!empty($and)) {$resAND = $emailAddressDAO->getUserIDsByGroupAND($and);}
+				if (!empty($not)) {$resNOT = $emailAddressDAO->getUserInfosByGroupsOR($not,$primaryLocale);}
 				
 				$resALL = array_unique(array_diff(array_merge($resOR,$resAND),$resNOT));
 

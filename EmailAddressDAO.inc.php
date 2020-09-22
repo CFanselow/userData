@@ -39,11 +39,37 @@ class EmailAddressDAO extends DAO {
 		}
 	}
 	
+	function getUserInfosByIDs($userIDs, $locale) {
 	
-	function getUserIDsByGroupAND($groupIDs) {
+		if (!empty($userIDs)) {
+			$query = "select users.username as username, us1.setting_value as first, us2.setting_value as last, users.email as email ".
+					"from users left join user_settings as us1 ".
+					"on users.user_id=us1.user_id left join user_settings as us2 on us1.user_id=us2.user_id ".
+					"where us1.setting_name='givenName' and us2.setting_name='familyName' ".
+					"and us1.locale='".$locale."' and us2.locale='".$locale."' ".
+					"and users.user_id in(".implode(",", $userIDs).")";
+
+			$result = $this->retrieve($query);
+			$data = array();
 		
-		$userIDs = array();
-		if (!empty($groupIDs)) {		
+			while (!$result->EOF) {
+				$row = $result->getRowAssoc(false);
+				$data[$this->convertFromDB($row['email'],null)] = 	$this->convertFromDB($row['username'],null).",".
+																	$this->convertFromDB($row['first'],null).",".
+																	$this->convertFromDB($row['last'],null); 
+				$result->MoveNext();
+			}
+			$result->Close();
+			return $data;
+
+		} else {
+			return array();
+		}
+	}
+
+	function getUserInfosByGroupsAND($groupIDs, $locale) {
+
+		if (!empty($groupIDs)) {	
 			$query = "";
 			$pos0 = true;
 			for ($i=0; $i<sizeof($groupIDs);$i++) {
@@ -56,110 +82,39 @@ class EmailAddressDAO extends DAO {
 			}
 			$query = "SELECT user_id from users where user_id IN " . $query . ";";
 			$result = $this->retrieve($query);
+			
+			$userIDs = array();
+			while (!$result->EOF) {
+				$row = $result->getRowAssoc(false);
+				$userIDs[] = $this->convertFromDB($row['user_id'],null);
+				$result->MoveNext();
+			}
+			$result->Close();
+			return $this->getUserInfosByIDs($userIDs, $locale);
+		} else {
+			return array();
+		}
+		
+		
+	}
 
+	function getUserInfosByGroupsOR($groupIDs, $locale) {
+		
+		if (!empty($groupIDs)) {		
+			$result = $this->retrieve("select user_id from user_user_groups where user_group_id in (".implode(',', $groupIDs).")");
+			
+			$userIDs = array();
 			while (!$result->EOF) {
 				$row = $result->getRowAssoc(false);
 				$userIDs[] = $this->convertFromDB($row['user_id'],null); 
 				$result->MoveNext();
 			}
 			$result->Close();
-		
+			return $this->getUserInfosByIDs($userIDs, $locale);
 		} else {
 			return array();
-		}	
-			
-		if (!empty($userIDs)) {
-			$query = "select user_settings.setting_value as first, us.setting_value as last, users.email as email from users left join user_settings ".
-					 "on users.user_id=user_settings.user_id left join user_settings as us on user_settings.user_id=us.user_id ".
-					 "where user_settings.setting_name='familyName' and  us.setting_name='givenName' and users.user_id in ". 
-					 "(".implode(",", $userIDs).")";
-
-			$result = $this->retrieve($query);
-			$data = array();
-			while (!$result->EOF) {
-				$row = $result->getRowAssoc(false);
-				$data[$this->convertFromDB($row['email'],null)] = $this->convertFromDB($row['first'],null)." ".$this->convertFromDB($row['last'],null); 
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $data;			
-			
-		} else {
-			return array();
-		}	
-	}
-		
-
-	function getUserIDsByGroupOR($groupIds) {
-		$groupIdsQuery = "(".implode(",", $groupIds).")";
-		$result = $this->retrieve("select user_id from user_user_groups where user_group_id in ".$groupIdsQuery);
-		
-		$userIDs = array();
-		while (!$result->EOF) {
-			$row = $result->getRowAssoc(false);
-			$userIDs[] = $this->convertFromDB($row['user_id'],null); 
-			$result->MoveNext();
 		}
-		$result->Close();
-		
-		if (!empty($userIDs)) {
-			$query = "select user_settings.setting_value as first, us.setting_value as last, users.email as email from users left join user_settings ".
-					 "on users.user_id=user_settings.user_id left join user_settings as us on user_settings.user_id=us.user_id ".
-					 "where user_settings.setting_name='familyName' and  us.setting_name='givenName' and users.user_id in ". 
-					 "(".implode(",", $userIDs).")";
-
-			$result = $this->retrieve($query);
-			$data = array();
-			while (!$result->EOF) {
-				$row = $result->getRowAssoc(false);
-				$data[$this->convertFromDB($row['email'],null)] = $this->convertFromDB($row['first'],null)." ".$this->convertFromDB($row['last'],null); 
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $data;			
-			
-		} else {
-			return array();
-		}	
-	}
-	
-	function getEmailsByGroup($query) {
-
-		$result = $this->retrieve($query);
-
-		if ($result->RecordCount() == 0) {
-			$result->Close();
-			return null;
-		} else {
-			$emails = array();
-			while (!$result->EOF) {
-				$row = $result->getRowAssoc(false);
-				$emails[$this->convertFromDB($row['email'],null)] = $this->convertFromDB($row['first_name'],null) . " " . $this->convertFromDB($row['last_name'],null);		 
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $emails;
-		}
-	}
-
-	function getUserRoles($userId) {
-		$result = $this->retrieve(
-			'select setting_value from user_group_settings where setting_name = "name" and locale="en_US" and
-			 user_group_id in (select user_group_id from user_user_groups where user_id = '.$userId.')');
-		if ($result->RecordCount() == 0) {
-			$result->Close();
-			return null;
-		} else {
-			$userGroups = array();
-			while (!$result->EOF) {
-				$row = $result->getRowAssoc(false);
-				$userGroups[] = $this->convertFromDB($row['setting_value'],null);
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $userGroups;
-		}	
-	}
+	}	
 }
 
 ?>
