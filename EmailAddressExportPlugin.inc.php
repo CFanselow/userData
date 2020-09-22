@@ -118,7 +118,7 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 				
 				$resALL = array_unique(array_diff(array_merge($resOR,$resAND),$resNOT));
 
-				$output = "";
+				$output = "email, username, firstName, lastName, disabled\n";
 				foreach ($resALL as $key => $value) {
 					$output = $output.$key .",". $value."\n";
 				}

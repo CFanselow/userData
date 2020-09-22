@@ -42,7 +42,7 @@ class EmailAddressDAO extends DAO {
 	function getUserInfosByIDs($userIDs, $locale) {
 	
 		if (!empty($userIDs)) {
-			$query = "select users.username as username, us1.setting_value as first, us2.setting_value as last, users.email as email ".
+			$query = "select users.username as username, users.disabled as disabled, us1.setting_value as first, us2.setting_value as last, users.email as email ".
 					"from users left join user_settings as us1 ".
 					"on users.user_id=us1.user_id left join user_settings as us2 on us1.user_id=us2.user_id ".
 					"where us1.setting_name='givenName' and us2.setting_name='familyName' ".
@@ -56,7 +56,8 @@ class EmailAddressDAO extends DAO {
 				$row = $result->getRowAssoc(false);
 				$data[$this->convertFromDB($row['email'],null)] = 	$this->convertFromDB($row['username'],null).",".
 																	$this->convertFromDB($row['first'],null).",".
-																	$this->convertFromDB($row['last'],null); 
+																	$this->convertFromDB($row['last'],null).",".
+																	$this->convertFromDB($row['disabled'],null);																	
 				$result->MoveNext();
 			}
 			$result->Close();
