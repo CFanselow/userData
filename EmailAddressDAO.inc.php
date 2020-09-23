@@ -1,10 +1,11 @@
 <?php
 
 /**
- * @file plugins/generic/groupMail/GroupMailDAO.inc.php
+ * @file plugins/importexport/emailAddress/EmailAddressDAO.inc.php
  *
- * Copyright (c) 2016 Language Science Press
- * Distributed under the GNU GPL v2. For full terms see the file docs/COPYING.  
+ * Copyright (c) 2016-2010 Language Science Press
+ * Copyright (c) 2020 Freie Universität Berlin 
+ * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.  
  *
  * @class GroupMailDAO
  *
@@ -23,7 +24,7 @@ class EmailAddressDAO extends DAO {
 		$result = $this->retrieve(
 			'SELECT s.user_group_id,s.setting_value FROM user_group_settings s LEFT JOIN user_groups u ON (s.user_group_id=u.user_group_id) WHERE u.context_id='.$contextId.' AND s.locale="'.$locale.'" AND s.setting_name="name"'
 		);
-
+		
 		if ($result->RecordCount() == 0) {
 			$result->Close();
 			return null;
@@ -39,7 +40,7 @@ class EmailAddressDAO extends DAO {
 		}
 	}
 	
-	function getUserInfosByIDs($userIDs, $locale) {
+	function getUserInfosByIDs($userIDs, $locale, $dateRegistered) {
 	
 		if (!empty($userIDs)) {
 			$query = "select users.username as username, users.disabled as disabled, us1.setting_value as first, us2.setting_value as last, users.email as email ".
@@ -48,6 +49,9 @@ class EmailAddressDAO extends DAO {
 					"where us1.setting_name='givenName' and us2.setting_name='familyName' ".
 					"and us1.locale='".$locale."' and us2.locale='".$locale."' ".
 					"and users.user_id in(".implode(",", $userIDs).")";
+			if (!empty($dateRegistered)) {
+				$query = $query . " and users.date_registered > '" . $dateRegistered."'";
+			}
 
 			$result = $this->retrieve($query);
 			$data = array();
@@ -68,7 +72,7 @@ class EmailAddressDAO extends DAO {
 		}
 	}
 
-	function getUserInfosByGroupsAND($groupIDs, $locale) {
+	function getUserInfosByGroupsAND($groupIDs, $locale, $dateRegistered) {
 
 		if (!empty($groupIDs)) {	
 			$query = "";
@@ -91,7 +95,7 @@ class EmailAddressDAO extends DAO {
 				$result->MoveNext();
 			}
 			$result->Close();
-			return $this->getUserInfosByIDs($userIDs, $locale);
+			return $this->getUserInfosByIDs($userIDs, $locale, $dateRegistered);
 		} else {
 			return array();
 		}
@@ -99,7 +103,7 @@ class EmailAddressDAO extends DAO {
 		
 	}
 
-	function getUserInfosByGroupsOR($groupIDs, $locale) {
+	function getUserInfosByGroupsOR($groupIDs, $locale, $dateRegistered) {
 		
 		if (!empty($groupIDs)) {		
 			$result = $this->retrieve("select user_id from user_user_groups where user_group_id in (".implode(',', $groupIDs).")");
@@ -111,7 +115,7 @@ class EmailAddressDAO extends DAO {
 				$result->MoveNext();
 			}
 			$result->Close();
-			return $this->getUserInfosByIDs($userIDs, $locale);
+			return $this->getUserInfosByIDs($userIDs, $locale, $dateRegistered);
 		} else {
 			return array();
 		}

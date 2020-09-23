@@ -1,15 +1,15 @@
 <?php
 
 /**
- * @file plugins/importexport/onix30/EmailAddressExportPlugin .inc.php
+ * @file plugins/importexport/emailAddress/EmailAddressExportPlugin.inc.php
  *
  * Copyright (c) 2020 Freie Universität Berlin
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
  * @class EmailAddressExportPlugin 
- * @ingroup plugins_importexport_onix30
+ * @ingroup plugins_importexport_emailAddress
  *
- * @brief ONIX 3.0 XML import/export plugin
+ * @brief Email Address export plugin
  */
 
 import('lib.pkp.classes.plugins.ImportExportPlugin');
@@ -83,20 +83,19 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 		switch (array_shift($args)) {
 			case 'index':
 			case '':
-				$checkboxes = array();
-				foreach ($userGroups as $userGroup) {
-					$checkboxes[] = false;
-				}
-				$templateMgr->assign('userGroups', $userGroups);
-				$templateMgr->assign('postOr', $checkboxes);
-				$templateMgr->assign('postAnd', $checkboxes);
-				$templateMgr->assign('postNot', $checkboxes);
+				$templateMgr->assign('userGroups', $userGroups);				
 				$templateMgr->display($this->getTemplateResource('index.tpl'));
 				break;
 			case 'export':			
 				$or  = array();
 				$and = array();
 				$not = array();
+				$dateRegistered = null;
+				$useDateRegistered = $request->getUserVar('useDateRegistered');
+				if ($useDateRegistered) {
+					$dateRegistered = $request->getUserVar('dateRegistered');					
+				}
+				
 				foreach ($userGroups as $key => $value) {
 					if ($request->getUserVar('OR'.$key)) {
 						$or[] = $key;
@@ -110,11 +109,11 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 				}
 				$primaryLocale = $context->getPrimaryLocale();
 				$resOR  = array();
-				if (!empty($or)) {$resOR = $emailAddressDAO->getUserInfosByGroupsOR($or,$primaryLocale);} 
+				if (!empty($or)) {$resOR = $emailAddressDAO->getUserInfosByGroupsOR($or,$primaryLocale,$dateRegistered);} 
 				$resAND = array();
-				if (!empty($and)) {$resAND = $emailAddressDAO->getUserInfosByGroupsAND($and,$primaryLocale);}
+				if (!empty($and)) {$resAND = $emailAddressDAO->getUserInfosByGroupsAND($and,$primaryLocale,$dateRegistered);}
 				$resNOT = array();
-				if (!empty($not)) {$resNOT = $emailAddressDAO->getUserInfosByGroupsOR($not,$primaryLocale);}
+				if (!empty($not)) {$resNOT = $emailAddressDAO->getUserInfosByGroupsOR($not,$primaryLocale,$dateRegistered);}
 				
 				$resALL = array_unique(array_diff(array_merge($resOR,$resAND),$resNOT));
 
@@ -125,10 +124,10 @@ class EmailAddressExportPlugin extends ImportExportPlugin {
 
 				import('lib.pkp.classes.file.FileManager');
 				$fileManager = new FileManager();
-				$exportFileName = $this->getExportFileName($this->getExportPath(), 'export', $context, '.csv');				
+				$exportFileName = $this->getExportFileName($this->getExportPath(), 'export', $context, '.csv');			
 				$fileManager->writeFile($exportFileName, $output);
 				$fileManager->downloadByPath($exportFileName);
-				$fileManager->deleteByPath($exportFileName);
+				$fileManager->deleteByPath($exportFileName);					
 				break;
 			default:
 				$dispatcher = $request->getDispatcher();

@@ -2,10 +2,11 @@
 <!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
 
 <!--
-  * plugins/generic/emailAddress/locale/en_US/locale.xml
+  * plugins/importexport/emailAddress/locale/en_US/locale.xml
   *
-  * Copyright (c) 2016 Language Science Press
-  * Distributed under the GNU GPL v2.
+  * Copyright (c) 2016-2019 Language Science Press
+  * Copyright (c) 2020 Freie Universität Berlin 
+  * Distributed under the GNU GPL v3.
   *
   * Localization strings for the en_US (U.S. English) locale.
   -->
@@ -23,10 +24,9 @@
 	<message key="plugins.importexport.emailAddress.userGroup">User Group</message>
 	<message key="plugins.importexport.emailAddress.title">Export of Email Addresses</message>
 	<message key="plugins.importexport.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
-	<message key="plugins.importexport.emailAddress.export">Export</message>	
-	
-	<message key="plugins.importexport.emailAddress.download">Download</message>	
-
+	<message key="plugins.importexport.emailAddress.date">Select registration date. Only accounts registered after this will be considered if filter is activated.</message>	
+	<message key="plugins.importexport.emailAddress.dateCheckbox">Filter exported email addresses by registration date.</message>
+	<message key="plugins.importexport.emailAddress.export">Export</message>
 
 </locale>
 
