@@ -24,7 +24,7 @@
 	<message key="plugins.importexport.emailAddress.userGroup">User Group</message>
 	<message key="plugins.importexport.emailAddress.title">Export of Email Addresses</message>
 	<message key="plugins.importexport.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
-	<message key="plugins.importexport.emailAddress.date">Select registration date. Only accounts registered after this will be considered if filter is activated.</message>	
+	<message key="plugins.importexport.emailAddress.date">Select registration date. Only accounts registered after this date will be considered.</message>	
 	<message key="plugins.importexport.emailAddress.dateCheckbox">Filter exported email addresses by registration date.</message>
 	<message key="plugins.importexport.emailAddress.export">Export</message>
 
