@@ -2,7 +2,7 @@
 <!DOCTYPE locale SYSTEM "../../../../../lib/pkp/dtd/locale.dtd">
 
 <!--
-  * plugins/importexport/emailAddress/locale/de_DE/locale.xml
+  * plugins/importexport/userData/locale/de_DE/locale.xml
   *
   * Copyright (c) 2016-2019 Language Science Press
   * Copyright (c) 2020 Freie Universität Berlin 
@@ -13,20 +13,23 @@
 
 <locale name="de_DE" full_name="German">
 
-	<message key="plugins.importexport.emailAddress.displayName">Email-Adressen Plugin</message>
-	<message key="plugins.importexport.emailAddress.description">Exportiert Email-Adressen.</message>
-	<message key="plugins.importexport.emailAddress.linkName">Email Addresses</message>
+	<message key="plugins.importexport.userData.displayName">Benutzerdaten Export Plugin</message>
+	<message key="plugins.importexport.userData.description">Exportiert Daten der Benutzeraccounts.</message>
 	
-	<message key="plugins.importexport.emailAddress.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.importexport.emailAddress.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.importexport.emailAddress.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
 	
-	<message key="plugins.importexport.emailAddress.userGroup">Rolle</message>
-	<message key="plugins.importexport.emailAddress.title">Export von Email-Adressen</message>
-	<message key="plugins.importexport.emailAddress.intro">Wählen Sie die Rollen aus, für die Email-Addressen exportiert werden sollen. Es werden Accounts eingeschlossen, die mindestens eine der Rollen (OR), alle (AND) oder keine (NOT) der Rollen besitzen.</message>	
-	<message key="plugins.importexport.emailAddress.date">Wählen Sie ein Datum aus. Es werden nur Accounts eingeschlossen, die nach diesem Datum registriert wurden.</message>	
-	<message key="plugins.importexport.emailAddress.dateCheckbox">Zu exportierende Email-Adressen nach Registrierungsdatum filtern.</message>
-	<message key="plugins.importexport.emailAddress.export">Exportieren</message>
+	<message key="plugins.importexport.userData.userGroup">Rolle</message>
+	<message key="plugins.importexport.userData.title.exportAllData">Export aller Benutzerdaten</message>
+	<message key="plugins.importexport.userData.title.exportSelection">Export von Benutzerdaten nach Rolle und Registrierungsdatum</message>
+	<message key="plugins.importexport.userData.description.exportAllData">Exportiert Benutzerdaten in eine CSV-Datei, Felder sind durch Kommas getrennt: user_id, username, date_registered, date_validated, disabled, disabled_reason, givenName, familyName, biography, signature, affiliation, preferedPublicName, orcid, url, phone, mailing_address, billing_address, country, must_change_password.</message>
+	<message key="plugins.importexport.userData.description.exportSelection">Exportiert Benutzerdaten in eine CSV-Datei, Felder sind durch Kommas getrennt: email, username, givenName, familyName, disabled. Filter users by registration date and role.</message>	
+	<message key="plugins.importexport.userData.intro">Wählen Sie die Rollen aus, für die Email-Addressen exportiert werden sollen. Es werden Accounts eingeschlossen, die mindestens eine der Rollen (OR), alle (AND) oder keine (NOT) der Rollen besitzen.</message>	<message key="plugins.importexport.userData.date">Select registration date. Only accounts registered after this date will be considered.</message>	
+	<message key="plugins.importexport.userData.dateCheckbox">Zu exportierende Email-Adressen nach Registrierungsdatum filtern.</message>
+	<message key="plugins.importexport.userData.exportAllData">Export aller Benutzerdaten</message>
+	<message key="plugins.importexport.userData.exportSelection">Export von Benutzerdaten nach Rolle und Registrierungsdatum</message>	
+	<message key="plugins.importexport.userData.export">Exportieren</message>
 
 </locale>
 
