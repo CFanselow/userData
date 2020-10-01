@@ -23,7 +23,7 @@
 	<message key="plugins.importexport.userData.userGroup">Role</message>
 	<message key="plugins.importexport.userData.title.exportAllData">Export All User Data</message>
 	<message key="plugins.importexport.userData.title.exportSelection">Export Of User Data By Role And Registration Date</message>
-	<message key="plugins.importexport.userData.description.exportAllData">Exports user data into a comma-separated (CSV) file: user_id, username, date_registered, date_validated, disabled, disabled_reason, givenName, familyName, biography, signature, affiliation, preferedPublicName, orcid, url, phone, mailing_address, billing_address, country, must_change_password.</message>
+	<message key="plugins.importexport.userData.description.exportAllData">Exports user data into a comma-separated (CSV) file: user_id, username, date_registered, date_validated, disabled, disabled_reason, givenName, familyName, biography, signature, affiliation, preferedPublicName, orcid, url, phone, mailing_address, billing_address, country, must_change_password. </message>
 	<message key="plugins.importexport.userData.description.exportSelection">Exports user data into a comma-separated (CSV) file: email, username, givenName, familyName, disabled. Filter users by registration date and role.</message>	
 	<message key="plugins.importexport.userData.intro">Select roles to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
 	<message key="plugins.importexport.userData.date">Select registration date. Only accounts registered after this date will be considered.</message>	
