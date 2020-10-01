@@ -1,5 +1,5 @@
 {**
- * plugins/importexport/emailAddress/templates/index.tpl
+ * plugins/importexport/userData/templates/index.tpl
  *
  * Copyright (c) 2016-2019
  * Copyright (c) 2020 Freie Universität Berlin
@@ -7,9 +7,15 @@
  *
  *}
 {strip}
-{assign var="pageTitle" value="plugins.importexport.emailAddress.displayName"}
+{assign var="pageTitle" value="plugins.importexport.userData.displayName"}
 {include file="common/header.tpl"}
 {/strip}
+
+<style>
+#ui-datepicker-div {
+display:none;
+}
+</style>
 
 <script type="text/javascript">
 	// Attach the JS file tab handler.
@@ -19,35 +25,55 @@
 </script>
 <div id="exportTab" class="pkp_controllers_tab">
 	<ul>
-		<li><a href="#export-tab">{translate key="plugins.importexport.emailAddress.export"}</a></li>
+		<li><a href="#export-all-data-tab">{translate key="plugins.importexport.userData.exportAllData"}</a></li>
+		<li><a href="#export-selection-tab">{translate key="plugins.importexport.userData.exportSelection"}</a></li>
 	</ul>
-	<div id="export-tab">
+	<div id="export-all-data-tab">
 		<script type="text/javascript">
 			$(function() {ldelim}
 				// Attach the form handler.
-				$('#exportForm').pkpHandler('$.pkp.controllers.form.FormHandler');
+				$('#exportAllDataForm').pkpHandler('$.pkp.controllers.form.FormHandler');
 			{rdelim});
 		</script>
-		<form id="exportForm" class="pkp_form" action="{plugin_url path="export"}" method="post">
+		<form id="exportAllDataForm" class="pkp_form" action="{plugin_url path="exportAllData"}" method="post">
 			{csrf}				
-			<h3>{translate key="plugins.importexport.emailAddress.title"}</h3>
+			<h3>{translate key="plugins.importexport.userData.title.exportAllData"}</h3>
+			<p>{translate key="plugins.importexport.userData.description.exportAllData"}</p>
+			
+			{fbvFormArea class="dateRegistered"}
+				
+			{/fbvFormArea}			
+			{fbvFormButtons submitText="plugins.importexport.userData.export" hideCancel="true"}
+		</form>
+	</div>		
+	<div id="export-selection-tab">
+		<script type="text/javascript">
+			$(function() {ldelim}
+				// Attach the form handler.
+				$('#exportSelectionForm').pkpHandler('$.pkp.controllers.form.FormHandler');
+			{rdelim});
+		</script>
+		<form id="exportSelectionForm" class="pkp_form" action="{plugin_url path="exportSelection"}" method="post">
+			{csrf}				
+			<h3>{translate key="plugins.importexport.userData.title.exportSelection"}</h3>
+			<p>{translate key="plugins.importexport.userData.description.exportSelection"}</p>			
 			<br/>
-			{fbvFormArea id="dateRegistered"}
+			{fbvFormArea class="dateRegistered"}
 				{fbvFormSection list=true}
-					{fbvElement type="checkbox" id="useDateRegistered" name="useDateRegistered" label="plugins.importexport.emailAddress.dateCheckbox"}				
+					{fbvElement type="checkbox" id="useDateRegistered" name="useDateRegistered" label="plugins.importexport.userData.dateCheckbox"}				
 				{/fbvFormSection}
 				{fbvFormSection}
-					{fbvElement type="text" id="dateRegistered" translate=false label="plugins.importexport.emailAddress.date" inline=true size=$fbvStyles.size.MEDIUM class="datepicker"}
+					{fbvElement type="text" id="dateRegistered" translate=false label="plugins.importexport.userData.date" inline=true size=$fbvStyles.size.MEDIUM class="datepicker"}
 				{/fbvFormSection}
 			{/fbvFormArea}
-			<p>{translate key="plugins.importexport.emailAddress.intro"}</p>			
+			<p>{translate key="plugins.importexport.userData.intro"}</p>			
 			<div>
 				<table>
 					<tr style="text-align:left">
-						<th>{translate key="plugins.importexport.emailAddress.or"}</th>
-						<th>{translate key="plugins.importexport.emailAddress.and"}</th>
-						<th>{translate key="plugins.importexport.emailAddress.not"}</th>
-						<th>{translate key="plugins.importexport.emailAddress.userGroup"}</th>
+						<th>{translate key="plugins.importexport.userData.or"}</th>
+						<th>{translate key="plugins.importexport.userData.and"}</th>
+						<th>{translate key="plugins.importexport.userData.not"}</th>
+						<th>{translate key="plugins.importexport.userData.userGroup"}</th>
 					</tr>
 
 					{assign var="count" value=0}
@@ -71,7 +97,7 @@
 				</table>
 				</br>
 			</div>	
-			{fbvFormButtons submitText="plugins.importexport.emailAddress.export" hideCancel="true"}
+			{fbvFormButtons submitText="plugins.importexport.userData.export" hideCancel="true"}
 		</form>
 	</div>
 </div>

@@ -1,23 +1,60 @@
 <?php
 
 /**
- * @file plugins/importexport/emailAddress/EmailAddressDAO.inc.php
+ * @file plugins/importexport/userData/UserDataDAO.inc.php
  *
  * Copyright (c) 2016-2010 Language Science Press
  * Copyright (c) 2020 Freie Universität Berlin 
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.  
  *
- * @class GroupMailDAO
+ * @class UserDataDAO
  *
  */
 
-class EmailAddressDAO extends DAO {
+class UserDataDAO extends DAO {
 	/**
 	 * Constructor
 	 */
 	public function __construct() {
 		parent::__construct();
 	}
+	
+	function getUsers($contextId) {
+		$result = $this->retrieve(
+			'SELECT * FROM users'
+		);
+		if ($result->RecordCount() == 0) {
+			$result->Close();
+			return null;
+		} else {
+			$users = array();
+			while (!$result->EOF) {
+				$users[] = $result->getRowAssoc(false);
+				$result->MoveNext();
+			}
+			$result->Close();
+			return $users;
+		}		
+	}
+	
+	function getUserSettings($contextId) {
+		$result = $this->retrieve(
+			'SELECT * FROM user_settings'
+		);
+		if ($result->RecordCount() == 0) {
+			$result->Close();
+			return null;
+		} else {
+			$userSettings = array();
+			while (!$result->EOF) {
+				$userSettings[] = $result->getRowAssoc(false);
+				$result->MoveNext();
+			}
+			$result->Close();
+			return $userSettings;
+		}			
+		return array();
+	}	
 
 	function getUserGroups($contextId, $locale) {
 
@@ -99,8 +136,6 @@ class EmailAddressDAO extends DAO {
 		} else {
 			return array();
 		}
-		
-		
 	}
 
 	function getUserInfosByGroupsOR($groupIDs, $locale, $dateRegistered) {

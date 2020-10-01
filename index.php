@@ -15,8 +15,6 @@
  *
  */
 
-require_once('EmailAddressExportPlugin.inc.php');
+require_once('UserDataExportPlugin.inc.php');
 
-return new EmailAddressExportPlugin();
-
-
+return new UserDataExportPlugin();

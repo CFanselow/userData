@@ -13,21 +13,26 @@
 
 <locale name="en_US" full_name="U.S. English">
 
-	<message key="plugins.importexport.emailAddress.displayName">Email Address Plugin</message>
-	<message key="plugins.importexport.emailAddress.description">Exports email addresses.</message>
-	<message key="plugins.importexport.emailAddress.linkName">Email Addresses</message>
+	<message key="plugins.importexport.userData.displayName">User Data Export Plugin</message>
+	<message key="plugins.importexport.userData.description">Exports user data.</message>
+	<message key="plugins.importexport.userData.linkName">Email Addresses link name</message>
 	
-	<message key="plugins.importexport.emailAddress.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.importexport.emailAddress.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
-	<message key="plugins.importexport.emailAddress.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.or"><![CDATA[OR&#160;&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.and"><![CDATA[AND&#160;&#160;&#160;&#160;&#160;]]></message>
+	<message key="plugins.importexport.userData.not"><![CDATA[NOT&#160;&#160;&#160;&#160;&#160;]]></message>
 	
-	<message key="plugins.importexport.emailAddress.userGroup">User Group</message>
-	<message key="plugins.importexport.emailAddress.title">Export of Email Addresses</message>
-	<message key="plugins.importexport.emailAddress.intro">Select usergroups to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
-	<message key="plugins.importexport.emailAddress.date">Select registration date. Only accounts registered after this date will be considered.</message>	
-	<message key="plugins.importexport.emailAddress.dateCheckbox">Filter exported email addresses by registration date.</message>
-	<message key="plugins.importexport.emailAddress.export">Export</message>
-
+	<message key="plugins.importexport.userData.userGroup">Role</message>
+	<message key="plugins.importexport.userData.title.exportAllData">Export All User Data</message>
+	<message key="plugins.importexport.userData.title.exportSelection">Export Of User Data By Role And Registration Date</message>
+	<message key="plugins.importexport.userData.description.exportAllData">Exports user data into a comma-separated (CSV) file: user_id, username, date_registered, date_validated, disabled, disabled_reason, givenName, familyName, biography, signature, affiliation, preferedPublicName, orcid, url, phone, mailing_address, billing_address, country, must_change_passoword.</message>
+	<message key="plugins.importexport.userData.description.exportSelection">Exports user data into a comma-separated (CSV) file: email, username, givenName, familyName, disabled. Filter users by registration date and role.</message>	
+	<message key="plugins.importexport.userData.intro">Select roles to include users that are in any (OR), all (AND) or none (NOT) of the user groups.</message>	
+	<message key="plugins.importexport.userData.date">Select registration date. Only accounts registered after this date will be considered.</message>	
+	<message key="plugins.importexport.userData.dateCheckbox">Filter exported user data by registration date.</message>
+	<message key="plugins.importexport.userData.exportAllData">Export All User Data</message>
+	<message key="plugins.importexport.userData.exportSelection">Export By Role and Registration Date</message>	
+	<message key="plugins.importexport.userData.export">Export</message>
+	
 </locale>
 
 
