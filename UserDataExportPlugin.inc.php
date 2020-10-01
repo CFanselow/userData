@@ -97,6 +97,7 @@ class UserDataExportPlugin extends ImportExportPlugin {
 					$userData = array();
 					$userData['user_id'] = $user['user_id'];
 					$userData['username'] = $user['username'];
+					$userData['email'] = $user['email'];					
 					$userData['date_registered'] = $user['date_registered'];
 					$userData['date_validated'] = $user['date_validated'];
 					$userData['disabled'] = $user['disabled'];
@@ -111,6 +112,12 @@ class UserDataExportPlugin extends ImportExportPlugin {
 						$userSettingItems[] =  $userSetting['setting_name'];
 					}
 				}
+
+$myfile = 'test.txt';
+$newContentCF5344 = print_r($primaryLocale, true);
+$contentCF2343 = file_get_contents($myfile);
+$contentCF2343 .= "\n test: " . $newContentCF5344 ;
+file_put_contents($myfile, $contentCF2343 );
 		
 				// get data from table 'user_settings'
 				foreach ($users as $user) {
@@ -119,7 +126,12 @@ class UserDataExportPlugin extends ImportExportPlugin {
 						$userSettingsValue ="";
 						foreach ($userSettings as $userSetting) {
 							$userSettingName = $userSetting['setting_name'];
-							if ($userSettingName==$userSettingItem && $userID==$userSetting['user_id']) {
+$myfile = 'test.txt';
+$newContentCF5344 = print_r($primaryLocale." " .$userSetting['locale'], true);
+$contentCF2343 = file_get_contents($myfile);
+$contentCF2343 .= "\n test: " . $newContentCF5344 ;
+file_put_contents($myfile, $contentCF2343 );							
+							if ($userSettingName==$userSettingItem && $userID==$userSetting['user_id'] && $primaryLocale==$userSetting['locale'] ) {
 								$userSettingsValue = $userSetting['setting_value'];						
 							}	
 						}
