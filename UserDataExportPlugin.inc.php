@@ -1,15 +1,15 @@
 <?php
 
-/**
- * @file plugins/importexport/emailAddress/EmailAddressExportPlugin.inc.php
+UserDataExportPlugin
+ * @file plugins/importexport/userData/EmailAddressExportPlugin.inc.php
  *
  * Copyright (c) 2020 Freie Universität Berlin
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
  *
- * @class EmailAddressExportPlugin 
- * @ingroup plugins_importexport_emailAddress
+ * @class UserDataExportPlugin 
+ * @ingroup plugins_importexport_userData
  *
- * @brief Email Address export plugin
+ * @brief User data export plugin
  */
 
 import('lib.pkp.classes.plugins.ImportExportPlugin');
@@ -88,32 +88,36 @@ class UserDataExportPlugin extends ImportExportPlugin {
 				$templateMgr->display($this->getTemplateResource('index.tpl'));
 				break;
 			case 'exportAllData':			
-				$users = $userDataDAO->getUsers($context->getId());
-				$userSettings = $userDataDAO->getUserSettings($context->getId());
+				$users = $userDataDAO->getUsers($context->getId()); //to do:ggf. nur user mit enrollment in der Zeitschrift?
+				$userSettings = $userDataDAO->getUserSettings($context->getId(),$primaryLocale);
 
 				// get main data from table 'users'
 				$usersData=array();
 				foreach ($users as $user) {
 					$userData = array();
-					$userData['user_id'] = $user['user_id'];
-					$userData['username'] = $user['username'];
-					$userData['email'] = $user['email'];					
-					$userData['date_registered'] = $user['date_registered'];
-					$userData['date_validated'] = $user['date_validated'];
-					$userData['disabled'] = $user['disabled'];
-					$userData['disabled_reason'] = $user['disabled_reason'];						
-					$usersData[$user['user_id']]=$userData;
+					$userData['user_id'] = $userDataDAO->strip($user['user_id']);
+					$userData['username'] = $userDataDAO->strip($user['username']);
+					$userData['email'] = $userDataDAO->strip($user['email']);					
+					$userData['date_registered'] = $userDataDAO->strip($user['date_registered']);
+					$userData['date_validated'] = $userDataDAO->strip($user['date_validated']);
+					$userData['disabled'] = $userDataDAO->strip($user['disabled']);
+					$userData['disabled_reason'] = $userDataDAO->strip($user['disabled_reason']);						
+					$usersData[$user['user_id']] = $userData;
 				}
 				// get all user settings (only primary locale)
-				$userSettingItems = array();
-				foreach ($userSettings as $userSetting) {
-					$locale = $userSetting['locale'];
-					if (empty($locale)||$locale==$primaryLocale) {
-						$userSettingItems[] =  $userSetting['setting_name'];
-					}
-				}
+				//$distinctSettingNames = $userDataDAO->getDistinctSettingNames($primaryLocale);
+				//$distinctSettingNames
+	
 		
 				// get data from table 'user_settings'
+				$count = 0;
+				foreach ($users as $user) {
+					$userID = $user['user_id'];
+					$usersData[$userID] = array_merge($usersData[$userID],$userSettings[$userID]);
+				}
+				
+			
+				/*
 				foreach ($users as $user) {
 					$userID = $user['user_id'];
 					foreach ($userSettingItems as $userSettingItem) {
@@ -126,39 +130,39 @@ class UserDataExportPlugin extends ImportExportPlugin {
 						}
 						$usersData[$userID][$userSettingItem]=$userSettingsValue;	
 					}
-				}
+				}*/
 				
 				// get rest of the data from table 'users'
 				foreach ($users as $user) {
 					$userID = $user['user_id'];
-					$usersData[$userID]['url']=$user['url'];
-					$usersData[$userID]['phone']=$user['phone'];
-					$usersData[$userID]['mailing_address']=$user['mailing_address'];
-					$usersData[$userID]['billing_address']=$user['billing_address'];
-					$usersData[$userID]['country']=$user['country'];
+					$usersData[$userID]['url']=$userDataDAO->strip($user['url']);
+					$usersData[$userID]['phone']=$userDataDAO->strip($user['phone']);
+					$usersData[$userID]['mailing_address']=$userDataDAO->strip($user['mailing_address']);
+					$usersData[$userID]['billing_address']=$userDataDAO->strip($user['billing_address']);
+					$usersData[$userID]['country']=$userDataDAO->strip($user['country']);
 					//$usersData[$userID]['gossip']=$user['gossip'];
 					//$usersData[$userID]['date_last_email']=$user['date_last_email'];
 					//$usersData[$userID]['date_last_login']=$user['date_last_login'];
-					$usersData[$userID]['must_change_password']=$user['must_change_password'];
+					$usersData[$userID]['must_change_password']=$userDataDAO->strip($user['must_change_password']);
 					//$usersData[$userID]['auth_id']=$user['auth_id'];
 					//$usersData[$userID]['auth_str']=$user['auth_str'];
 					//$usersData[$userID]['inline_help']=$user['inline_help'];					
 				}     				
 				
 				// prepare output
+				$fields = array('user_id','username','email','date_registered','date_validated','disabled','disabled_reason','familyName','givenName','affiliation','biography','preferredPublicName','signature','url','phone','mailing_address','billing_address','country','must_change_password');
 				$header = "";
-				$output = "";
-				$firstUser = true;
+				$first = true;
 				foreach ($usersData as $userData) {
-					foreach ($userData as $name=>$value) {
-						if ($firstUser) {
-							$header = $header .$name.",";
+					foreach ($fields as $field) {
+						if ($first) {
+							$header = $header . $field ."\t";							
 						}
-						$output = $output . $value .","; 
+						$output = $output . $userData[$field] ."\t";
 					}
-					$firstUser = false;
+					$first=false;
 					$header = substr($header, 0, -1)."\n";
-					$output = substr($output, 0, -1)."\n";					
+					$output = substr($output, 0, -1)."\n";
 				}		
 
 				// save file

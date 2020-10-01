@@ -19,6 +19,24 @@ class UserDataDAO extends DAO {
 		parent::__construct();
 	}
 	
+	function getDistinctSettingNames($primaryLocale) {
+		$result = $this->retrieve(
+			"SELECT distinct(setting_name) FROM user_settings WHERE locale='en_US' or locale='".$primaryLoclae."'"
+		);
+		if ($result->RecordCount() == 0) {
+			$result->Close();
+			return null;
+		} else {
+			$distinctSettingNames = array();
+			while (!$result->EOF) {
+				$distinctSettingNames[] = $result->getRowAssoc(false);
+				$result->MoveNext();
+			}
+			$result->Close();
+			return $distinctSettingNames;
+		}
+	}
+	
 	function getUsers($contextId) {
 		$result = $this->retrieve(
 			'SELECT * FROM users'
@@ -37,23 +55,71 @@ class UserDataDAO extends DAO {
 		}		
 	}
 	
-	function getUserSettings($contextId) {
+	function strip($string) {
+		return str_replace("\t"," ", str_replace("\r"," ", str_replace("\n"," ", strip_tags($string))));
+	}
+	
+	function getUserSettings($contextId, $primaryLocale) {
+		$userSettings = array();
 		$result = $this->retrieve(
-			'SELECT * FROM user_settings'
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='familyName' and (locale='' or locale='".$primaryLocale."')"
 		);
-		if ($result->RecordCount() == 0) {
-			$result->Close();
-			return null;
-		} else {
-			$userSettings = array();
-			while (!$result->EOF) {
-				$userSettings[] = $result->getRowAssoc(false);
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $userSettings;
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);			
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['familyName'] = $this->convertFromDB($row['setting_value'],null);
+			$result->MoveNext();
+		}
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='givenName' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['givenName'] = $this->convertFromDB($row['setting_value'],null);
+			$result->MoveNext();
+		}
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='affiliation' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['affiliation'] = $this->strip($this->convertFromDB($row['setting_value'],null));
+			$result->MoveNext();
+		}		
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='biography' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['biography'] = $this->strip($this->convertFromDB($row['setting_value'],null));
+			$result->MoveNext();
+		}				
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='orcid' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['orcid'] = $this->convertFromDB($row['setting_value'],null);
+			$result->MoveNext();
+		}
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='preferredPublicName' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['preferredPublicName'] = $this->convertFromDB($row['setting_value'],null);
+			$result->MoveNext();
 		}			
-		return array();
+		$result = $this->retrieve(
+			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='signature' and (locale='' or locale='".$primaryLocale."')"
+		);
+		while (!$result->EOF) {
+			$row = $result->getRowAssoc(false);
+			$userSettings[$this->convertFromDB($row['user_id'],null)]['signature'] = $this->strip($this->convertFromDB($row['setting_value'],null));
+
+			$result->MoveNext();
+		}			
+		$result->Close();
+		return $userSettings;
 	}	
 
 	function getUserGroups($contextId, $locale) {
