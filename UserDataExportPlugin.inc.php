@@ -1,7 +1,7 @@
 <?php
 
-UserDataExportPlugin
- * @file plugins/importexport/userData/EmailAddressExportPlugin.inc.php
+/**
+ * @file plugins/importexport/userData/UserDataExportPlugin.inc.php
  *
  * Copyright (c) 2020 Freie Universität Berlin
  * Distributed under the GNU GPL v3. For full terms see the file docs/COPYING.
@@ -9,7 +9,7 @@ UserDataExportPlugin
  * @class UserDataExportPlugin 
  * @ingroup plugins_importexport_userData
  *
- * @brief User data export plugin
+ * @brief User Data export plugin
  */
 
 import('lib.pkp.classes.plugins.ImportExportPlugin');
