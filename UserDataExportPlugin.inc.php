@@ -79,8 +79,9 @@ class UserDataExportPlugin extends ImportExportPlugin {
 		$templateMgr->assign('plugin', $this);
 
 		$userDataDAO = new userDataDAO();
-		$userGroups = $userDataDAO->getUserGroups($context->getId(),$context->getPrimaryLocale());
-		$primaryLocale = $context->getPrimaryLocale();		
+		$primaryLocale = $context->getPrimaryLocale();
+		$userGroups = $userDataDAO->getUserGroupsByContext($context->getId(),$primaryLocale);
+				
 		switch (array_shift($args)) {
 			case 'index':
 			case '':
@@ -88,8 +89,8 @@ class UserDataExportPlugin extends ImportExportPlugin {
 				$templateMgr->display($this->getTemplateResource('index.tpl'));
 				break;
 			case 'exportAllData':			
-				$users = $userDataDAO->getUsers($context->getId()); //to do:ggf. nur user mit enrollment in der Zeitschrift?
-				$userSettings = $userDataDAO->getUserSettings($context->getId(),$primaryLocale);
+				$users = $userDataDAO->getEnrolledUsersByContext($context->getId()); 
+				$userSettings = $userDataDAO->getUserSettings($primaryLocale);
 
 				// get main data from table 'users'
 				$usersData=array();
@@ -104,33 +105,13 @@ class UserDataExportPlugin extends ImportExportPlugin {
 					$userData['disabled_reason'] = $userDataDAO->strip($user['disabled_reason']);						
 					$usersData[$user['user_id']] = $userData;
 				}
-				// get all user settings (only primary locale)
-				//$distinctSettingNames = $userDataDAO->getDistinctSettingNames($primaryLocale);
-				//$distinctSettingNames
-	
 		
 				// get data from table 'user_settings'
 				$count = 0;
 				foreach ($users as $user) {
-					$userID = $user['user_id'];
-					$usersData[$userID] = array_merge($usersData[$userID],$userSettings[$userID]);
+					$userId = $user['user_id'];
+					$usersData[$userId] = array_merge($usersData[$userId],$userSettings[$userId]);
 				}
-				
-			
-				/*
-				foreach ($users as $user) {
-					$userID = $user['user_id'];
-					foreach ($userSettingItems as $userSettingItem) {
-						$userSettingsValue ="";
-						foreach ($userSettings as $userSetting) {
-							$userSettingName = $userSetting['setting_name'];							
-							if ($userSettingName==$userSettingItem && $userID==$userSetting['user_id'] && $primaryLocale==$userSetting['locale'] ) {
-								$userSettingsValue = $userSetting['setting_value'];						
-							}	
-						}
-						$usersData[$userID][$userSettingItem]=$userSettingsValue;	
-					}
-				}*/
 				
 				// get rest of the data from table 'users'
 				foreach ($users as $user) {

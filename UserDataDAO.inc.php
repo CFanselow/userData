@@ -18,28 +18,10 @@ class UserDataDAO extends DAO {
 	public function __construct() {
 		parent::__construct();
 	}
-	
-	function getDistinctSettingNames($primaryLocale) {
+
+	function getEnrolledUsersByContext($contextId) {
 		$result = $this->retrieve(
-			"SELECT distinct(setting_name) FROM user_settings WHERE locale='en_US' or locale='".$primaryLoclae."'"
-		);
-		if ($result->RecordCount() == 0) {
-			$result->Close();
-			return null;
-		} else {
-			$distinctSettingNames = array();
-			while (!$result->EOF) {
-				$distinctSettingNames[] = $result->getRowAssoc(false);
-				$result->MoveNext();
-			}
-			$result->Close();
-			return $distinctSettingNames;
-		}
-	}
-	
-	function getUsers($contextId) {
-		$result = $this->retrieve(
-			'SELECT * FROM users'
+			'SELECT * FROM users WHERE user_id in (SELECT user_id FROM user_user_groups WHERE user_group_id in (SELECT user_group_id FROM user_groups WHERE context_id='.$contextId.'));'
 		);
 		if ($result->RecordCount() == 0) {
 			$result->Close();
@@ -54,12 +36,12 @@ class UserDataDAO extends DAO {
 			return $users;
 		}		
 	}
-	
+
 	function strip($string) {
 		return str_replace("\t"," ", str_replace("\r"," ", str_replace("\n"," ", strip_tags($string))));
 	}
 	
-	function getUserSettings($contextId, $primaryLocale) {
+	function getUserSettings($primaryLocale) {
 		$userSettings = array();
 		$result = $this->retrieve(
 			"SELECT user_id,setting_value FROM user_settings WHERE setting_name='familyName' and (locale='' or locale='".$primaryLocale."')"
@@ -122,7 +104,8 @@ class UserDataDAO extends DAO {
 		return $userSettings;
 	}	
 
-	function getUserGroups($contextId, $locale) {
+	// get pairs: user_group_id/name in primary locale
+	function getUserGroupsByContext($contextId, $locale) {
 
 		$result = $this->retrieve(
 			'SELECT s.user_group_id,s.setting_value FROM user_group_settings s LEFT JOIN user_groups u ON (s.user_group_id=u.user_group_id) WHERE u.context_id='.$contextId.' AND s.locale="'.$locale.'" AND s.setting_name="name"'
