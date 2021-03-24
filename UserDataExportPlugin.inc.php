@@ -185,9 +185,9 @@ class UserDataExportPlugin extends ImportExportPlugin {
 				
 				$resALL = array_unique(array_diff(array_merge($resOR,$resAND),$resNOT));
 
-				$output = "email, username, firstName, lastName, disabled\n";
+				$output = "email\tusername\tfirstName\tlastName\tdisabled\n";
 				foreach ($resALL as $key => $value) {
-					$output = $output.$key .",". $value."\n";
+					$output = $output.$key ."\t". $value."\n";
 				}
 
 				import('lib.pkp.classes.file.FileManager');

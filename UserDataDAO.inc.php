@@ -144,9 +144,9 @@ class UserDataDAO extends DAO {
 		
 			while (!$result->EOF) {
 				$row = $result->getRowAssoc(false);
-				$data[$this->convertFromDB($row['email'],null)] = 	$this->convertFromDB($row['username'],null).",".
-																	$this->convertFromDB($row['first'],null).",".
-																	$this->convertFromDB($row['last'],null).",".
+				$data[$this->convertFromDB($row['email'],null)] = 	$this->convertFromDB($row['username'],null)."\t".
+																	$this->convertFromDB($row['first'],null)."\t".
+																	$this->convertFromDB($row['last'],null)."\t".
 																	$this->convertFromDB($row['disabled'],null);																	
 				$result->MoveNext();
 			}
